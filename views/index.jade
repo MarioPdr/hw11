@@ -1,0 +1,26 @@
+extends layout
+
+block content
+  h1 Upload de Arquivos
+
+  if message
+    p(style=success ? "color: green" : "color: red")= message
+
+  form(method='post', action='/upload', enctype='multipart/form-data')
+    div
+      label Arquivo:
+      input(type='file', name='file', required)
+    
+    button(type='submit') Enviar
+
+  if file
+    div(style="margin-top: 20px; border-top: 1px solid #ccc; padding-top: 10px")
+      h3 Arquivo Recebido:
+      p Nome: #{file.originalname}
+      p Tamanho: #{Math.round(file.size/1024)} KB
+      
+      if file.mimetype.includes('image')
+        img(src='/uploads/' + file.filename, style="max-width: 300px; margin-top: 10px")
+      else
+        p 
+          a(href='/uploads/' + file.filename) Baixar arquivo
